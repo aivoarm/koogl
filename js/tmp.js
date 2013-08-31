@@ -26,7 +26,7 @@ function init2() {
 
     var content = '<div id="content"></div>';
 
-    var header= '<header class="wideBox"><h1>Kids learn HTML</h1></header>';
+    var header= '<header class="wideBox"><h1>Kids learn HTML online</h1></header>';
 
     var man = '\
         <div class="cardPile" ></div>\
