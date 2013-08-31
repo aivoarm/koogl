@@ -115,7 +115,7 @@ function init2() {
             <a href="https://plus.google.com/101688463845078568963/?rel=author"\
                 rel="publisher">Find us on Google+</a>\
         </div>\
-         <p> &copy;2013. All rights reserved powered by Arman Aiva, email: aayvazy@gmail.com </p>\
+         <p> &copy;2013. All rights reserved by Arman Aiva, email: aayvazy@gmail.com </p>\
         </footer>\
         ';
 
