@@ -1,0 +1,50 @@
+extends layout
+block content
+   div.cardPile
+   
+   #myeditor
+        #ckedit
+         form#CKform
+          textarea.ckeditor.ui-droppable(id="editor" name="editor" cols="100" rows="10")
+        
+       
+         button.menu.resutlout(onclick="submitCode()") Result
+        
+        #outaround
+        #out
+        
+        .menuboard
+          button.menu(onclick="prechallenge()") Previous
+          button.menu(onclick="nextchallenge()") Next
+           
+          br
+          br
+          br
+          
+        #tutorials
+            h3 Tutorials
+             style. color:green
+        a(href="http://www.ysbl.york.ac.uk/~mgwt/KKwebcourse/") Learning to write a web page
+        br
+        a(href="http://www.lissaexplains.com/") lissaexplains
+        br
+        a(href="http://www.w3schools.com/html/") www.w3schools.com
+        br
+        br
+          
+        #successMessage
+          h2 You did great!
+          br
+          h4 Now, click to see the output in Firefox below 
+          br
+          button.menu(onclick="gotoLab()") Result
+        #warning
+        br
+        h4 You are close, but not enough :(
+        
+        #linkme
+          p to link me to your page copy me and paste in your HTML
+          textarea#tarea &lt;a href="http://koogl.com"&gt;koogl.com&lt;/a&gt; 
+           style.
+            #tarea {width:350px; height:20px; font: normal normal normal 12px Arial,Helvetica,Tahoma,Verdana,Sans-Serif;}
+    
