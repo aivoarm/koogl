@@ -1,0 +1,16 @@
+h1 New User
+form(class="form-horizontal", method="POST", action="/users")
+ p
+  label(for="username") Username<br />
+  input#username.input-small(name="username")
+ p
+  label(for="name") Name<br />
+  input#name.input-small(name="name")
+ p
+  label(for="password") Password<br />
+  input#password.input-small(type="password", name="password")
+ p
+  label(for="bio") Bio<br />
+  textarea#bio.input-small(name="bio")
+ p
+  input(class='btn', type="submit", value="Create")

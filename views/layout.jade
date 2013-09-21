@@ -28,7 +28,8 @@ html
     link(rel="stylesheet" type="text/css" href="/stylesheet/jquery.ui.all.css")
     link(rel="stylesheet" type="text/css" href="/stylesheet/style.css")
     link(rel="stylesheet" type="text/css" href="/stylesheet/sample.css")
-    link(href="http://fonts.googleapis.com/css?family=Poller+One" rel="stylesheet" type="text/css")
+    link(href="/stylesheet/gfont.css" rel="stylesheet" type="text/css")
+    
     script(type='text/javascript').
       (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -39,21 +40,24 @@ html
     script(type="text/javascript" src="/js/backbone.js")
     script(type="text/javascript" src="/js/bootstrap.js")
     script(type="text/javascript" src="/js/jquery.js")
-
+   
     
   body
+  
     script(type="text/javascript" src="./ckeditor/adapters/jquery.js")
     script(type="text/javascript" src="./ckeditor/ckeditor.js")
     script(type="text/javascript" src="./js/index.js")
+    script(type="text/javascript" src="/socket.io/socket.io.js")
     header.wideBox
      h1 Free online learning HTML, CSS and Javascript
     #content
+      
       block content
+      //!= partial('session/user')
         
         
         
-        
-        
+      div(style="clear: both;width:960px")
       script(type='text/javascript').
         (function() {
             var cx = "010758940488641653985:WMX-1082278946";
@@ -62,7 +66,7 @@ html
                     "//www.google.com/cse/cse.js?cx=" + cx;
             var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(gcse, s);
         })();
-      gcse:search
+       gcse:search
     
     div#banner
     

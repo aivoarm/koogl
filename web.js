@@ -4,10 +4,16 @@
  */
 
 var express = require('express')
-  , routes = require('./routes');
+ , routes = require('./routes')
+  , http = require('http');
 
 var app = module.exports = express.createServer();
+//var server = http.createServer(app)
 
+//var app = module.exports = express.createServer();
+
+
+ 
 // Configuration
 
 app.configure(function(){
@@ -16,9 +22,19 @@ app.configure(function(){
   app.set('view options', {layout: false});
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(app.router);
+  
+  
+  
+  app.use(express.cookieParser('shhhh, very secret'));
+ //app.use(express.session()); 
+ 
+ app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+ 
+  
 });
+
+
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -30,10 +46,14 @@ app.configure('production', function(){
 
 // Routes
 
-require('./routes/game')(app);
 
 require('./routes/index')(app);
-require('./routes/user')(app);
+require('./routes/game')(app);
+require('./routes/users')(app);
+require('./routes/session')(app);
+require('./routes/socket')(app);
+
+
 
 
 
