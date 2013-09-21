@@ -23,11 +23,12 @@ html
   
   
     title Free online learning, kids build websites
-    link(rel='stylesheet' type="text/css" href='/stylesheets/style.css')
-    link(rel="stylesheet" type="text/css" href="/stylesheet/bootstrap.css")
+    
+  
     link(rel="stylesheet" type="text/css" href="/stylesheet/jquery.ui.all.css")
     link(rel="stylesheet" type="text/css" href="/stylesheet/style.css")
     link(rel="stylesheet" type="text/css" href="/stylesheet/sample.css")
+      link(rel="stylesheet" type="text/css" href="/stylesheet/bootstrap.css")
     link(href="/stylesheet/gfont.css" rel="stylesheet" type="text/css")
     
     script(type='text/javascript').
@@ -49,9 +50,15 @@ html
     script(type="text/javascript" src="./js/index.js")
     script(type="text/javascript" src="/socket.io/socket.io.js")
     header.wideBox
-     h1 Free online learning HTML, CSS and Javascript
+     h1 Learning hang out
+    
+     
+           
     #content
-      
+      div(style="margin-bottom:10px")
+       a.menulink(href="/") Home
+       a.menulink(href="/game") Game to learn HTML
+       a.menulink(href="/socket") Chat
       block content
       //!= partial('session/user')
         
@@ -72,7 +79,7 @@ html
     
     footer.wideBox
      style.
-      #links a:link,a:visited{text-decoration: underline; color: blue;margin-left: 10px;}
+      #links a:link,a:visited{text-decoration: underline; color: rgb(59, 173, 91);margin-left: 10px;}
       #links a:hover{color: #000088;}
      
      #links

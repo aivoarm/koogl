@@ -1,32 +1,40 @@
 extends layout
 
 block content
-
+    
     div#userslog(style="float:left;width:200px;height:300px;padding:10px;")
      b USERS
       
-      input#user(style="width:100px;")
+      input#user(style="width:100px;margin-left: 15px;")
       div#users
        
        
     
-    div(style="float:left; display:block;width:500px;height:20px; padding:10px")
-        input#data(style="width:400px;")
-        input#datasend(type="button" value="send")
-    div(style="float:left; display:block;width:500px;height:260px; overflow-y:scroll; padding:10px; border:1px solid black")
+    div(style="float:left; display:block;width:550px;height:20px; padding:10px")
+        input#data(style="width: 457px; margin-left: -50px;")
+        input#datasend.btn(type="button" value="send")
+    div(style="float:left; display:block;width:500px;height:280px; overflow-y:scroll; padding:10px; border:1px solid black")
         div#conversation
     div(style="float:right; display:block;width:100px;height:260px; ")    
-        input#disconnect(type="button" value="I am done" style="width:80px;")  
-        input#reconnect(type="button" value="go back" style="width:80px;;")    
+        input#disconnect.btn(type="button" value="I am done" style="width:80px; margin:5px; padding:3px")  
+        input#reconnect.btn(type="button" value="go back" style="width:80px;margin:5px;padding:3px")    
     script(type='text/javascript').
         var socket = io.connect(null);
+        var line=0;
         
-        socket.on('connect', function(){
+        
            
-        
+        socket.on('connect', function(){ $('#status').html('Connected to Server'); });
+        socket.on('disconnect', function(){ $('#status').html('Disconnected from Server'); });
+        socket.on('reconnecting', function( nextRetry ){ $('#status').html('Reconnecting in ' + nextRetry + ' milliseconds');  });
+        socket.on('reconnect_failed', function(){ $('#status').html('Reconnect Failed'); });
+
         
         socket.on('updatechat', function (username, data) {
-            $('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+        line++;
+            $('#conversation').append('<b>'+username + ':</b> ' + '<span id='+line+'>'+ data+'</span>' + '<br>')
+             $('#'+line).css("color",get_random_color());
+             
         });
 
         socket.on('updateusers', function(data) {
@@ -36,21 +44,24 @@ block content
             });
         });
 
-        });
+        
 
         $(function(){
         
         $('#datasend').click( function() {
             var message = $('#data').val();
                 //alert(message)
+                
         $('#data').val('');
             socket.emit('sendchat', message);
+           
         });
 
         $('#data').keypress(function(e) {
             if(e.which == 13) {
                 $(this).blur();
             $('#datasend').focus().click();
+             $('#data').focus();
             }
         });
         
@@ -73,12 +84,21 @@ block content
         $('#reconnect').click(function(e){
                
                 socket.emit('reconnect');
-                socket.reconnect();
+                socket.socket.reconnect();
                     
         });
                 
             
         });
+        
+        function get_random_color() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++ ) {
+                color += letters[Math.round(Math.random() * 15)];
+            }
+            return color;
+        }
 
 
        

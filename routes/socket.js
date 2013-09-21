@@ -34,15 +34,15 @@ io.sockets.on('connection', function (socket) {
 		// add the client's username to the global list
 		usernames[username] = username;
 		// echo to client they've connected
-		socket.emit('updatechat', 'SERVER', 'you have connected');
+		socket.emit('updatechat', username,  'has connected');
 		// echo globally (all clients) that a person has connected
-		socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
+		socket.broadcast.emit('updatechat', username,  'has connected');
 		// update the list of users in chat, client-side
 		io.sockets.emit('updateusers', usernames);
 		
 		
 	});
-    socket.on('discon', function (d) {console.log(d)
+    socket.on('discon', function (usernames) {console.log(usernames)
 		
          socket.on('disconnect', function () {
        	// remove the username from global usernames list
@@ -50,11 +50,15 @@ io.sockets.on('connection', function (socket) {
 		// update list of users in chat, client-side
 		io.sockets.emit('updateusers', usernames);
 		// echo globally that this client has left
-		socket.broadcast.emit('updatechat',  socket.username + ' has disconnected');
+		socket.broadcast.emit('updatechat',  socket.username , ' has disconnected');
        
    })
 	// when the user disconnects.. perform this
     })
+    
+     socket.on('reconnect', function (d) {console.log(d)
+        	socket.broadcast.emit('updatechat', socket.username,  'has connected');
+     });
 
 });
 
