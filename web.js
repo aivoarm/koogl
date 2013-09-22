@@ -51,7 +51,6 @@ app.configure('production', function(){
 require('./routes/index')(app);
 require('./routes/game')(app);
 require('./routes/users')(app);
-require('./routes/session')(app);
 require('./routes/socket')(app);
 
 

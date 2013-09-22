@@ -1,50 +1,60 @@
 extends layout
 
 block content
-    
+    #status
     div#userslog(style="float:left;width:200px;height:300px;padding:10px;")
      b USERS
       
       input#user(style="width:100px;margin-left: 15px;")
       div#users
-       
-       
     
     div(style="float:left; display:block;width:550px;height:20px; padding:10px")
         input#data(style="width: 457px; margin-left: -50px;")
         input#datasend.btn(type="button" value="send")
     div(style="float:left; display:block;width:500px;height:280px; overflow-y:scroll; padding:10px; border:1px solid black")
         div#conversation
-    div(style="float:right; display:block;width:100px;height:260px; ")    
+    div(style="float:right; display:block;width:100px;height:260px; ")
+        input#connect.btn(type="button"  value="connect" style="width:80px; margin:5px; padding:3px")  
         input#disconnect.btn(type="button" value="I am done" style="width:80px; margin:5px; padding:3px")  
         input#reconnect.btn(type="button" value="go back" style="width:80px;margin:5px;padding:3px")    
+    
     script(type='text/javascript').
-        var socket = io.connect(null);
+        var socket;
+        var firstconnect = true;
         var line=0;
         
-        
-           
-        socket.on('connect', function(){ $('#status').html('Connected to Server'); });
-        socket.on('disconnect', function(){ $('#status').html('Disconnected from Server'); });
-        socket.on('reconnecting', function( nextRetry ){ $('#status').html('Reconnecting in ' + nextRetry + ' milliseconds');  });
-        socket.on('reconnect_failed', function(){ $('#status').html('Reconnect Failed'); });
-
-        
-        socket.on('updatechat', function (username, data) {
-        line++;
-            $('#conversation').append('<b>'+username + ':</b> ' + '<span id='+line+'>'+ data+'</span>' + '<br>')
-             $('#'+line).css("color",get_random_color());
-             
+        function connect(){
+            if(firstconnect) {
+                socket = io.connect(null);
+                
+                socket.on('connect', function(){ $('#status').html('Connected to Server'); });
+                socket.on('disconnect', function(){ $('#status').html('Disconnected from Server'); });
+                socket.on('reconnecting', function( nextRetry ){ $('#status').html('Reconnecting in ' + nextRetry + ' milliseconds');  });
+                socket.on('reconnect_failed', function(){ $('#status').html('Reconnect Failed'); });
+                
+                socket.on('updatechat', function (username, data) {
+                line++;
+                $('#conversation').append('<b>'+username + ':</b> ' + '<span id='+line+'>'+ data+'</span>' + '<br>')
+                $('#'+line).css("color",get_random_color());
+                 
+                });
+    
+                socket.on('updateusers', function(data) {
+                $('#users').empty();
+                    $.each(data, function(key, value) {
+                        $('#users').append('<div>' + key + '</div>');
+                });
         });
 
-        socket.on('updateusers', function(data) {
-            $('#users').empty();
-                $.each(data, function(key, value) {
-                    $('#users').append('<div>' + key + '</div>');
-            });
-        });
-
+            
+            firstconnect = false;
+            }
+            else {
+                socket.socket.reconnect();
+            }
+        }
         
+     
 
         $(function(){
         
@@ -59,34 +69,36 @@ block content
 
         $('#data').keypress(function(e) {
             if(e.which == 13) {
-                $(this).blur();
+            $(this).blur();
             $('#datasend').focus().click();
-             $('#data').focus();
+            $('#data').focus();
             }
         });
         
         $('#user').focusout(function(e){
             //alert('asdasd')
-                socket.emit('adduser', $(this).val());
+            socket.emit('adduser', $(this).val());
             });
             
-       
+        $('#connect').click(function(e){
+            
+            connect();
+            //alert($('#user').val())
+               //if($('#user').val()!=null){(socket.emit('adduser', $('#user').val());}
+            });
             //alert('asdasd')
         
         $('#disconnect').click(function(e){
-               $('#users').html('U are out')
-                socket.emit('discon', 'hey');
+               socket.emit('disconnect');
                 socket.disconnect();
-                    
-        });
+            });
          
          
         $('#reconnect').click(function(e){
-               
                 socket.emit('reconnect');
                 socket.socket.reconnect();
-                    
-        });
+                socket.emit('adduser', $('#user').val());
+            });
                 
             
         });

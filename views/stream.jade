@@ -1,0 +1,38 @@
+extends layout
+
+block content
+    
+    script(src="/js/socket.io-stream.js")
+    
+    input#files(type="file")
+    output#list
+
+    script.
+        
+        
+        var socket = io.connect(null);
+        var stream = ss.createStream();
+                
+       
+        
+       
+        
+        function handleFileSelect(evt) {
+        
+            
+            var files = evt.target.files[0]; // FileList object
+
+            
+
+            var filename = "hello";
+            
+            ss(socket).emit('data', stream);
+            fs.createReadStream(filename).pipe(stream);
+            
+ 
+          }
+
+            document.getElementById('files').addEventListener('change', handleFileSelect, false);
+            
+           
+         
