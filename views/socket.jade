@@ -1,6 +1,7 @@
 extends layout
 
 block content
+    script(type="text/javascript" src="/socket.io/socket.io.js")
     #status
     div#userslog(style="float:left;width:200px;height:300px;padding:10px;")
      b USERS
@@ -15,8 +16,8 @@ block content
         div#conversation
     div(style="float:right; display:block;width:100px;height:260px; ")
         input#connect.btn(type="button"  value="connect" style="width:80px; margin:5px; padding:3px")  
-        input#disconnect.btn(type="button" value="I am done" style="width:80px; margin:5px; padding:3px")  
-        input#reconnect.btn(type="button" value="go back" style="width:80px;margin:5px;padding:3px")    
+        input#disconnect.btn(type="button" value="disconnect" style="width:80px; margin:5px; padding:3px")  
+        input#reconnect.btn(type="button" value="reconnect" style="width:80px;margin:5px;padding:3px")    
     
     script(type='text/javascript').
         var socket;
@@ -89,8 +90,9 @@ block content
             //alert('asdasd')
         
         $('#disconnect').click(function(e){
-               socket.emit('disconnect');
+              
                 socket.disconnect();
+                // socket.emit('disconnect');
             });
          
          

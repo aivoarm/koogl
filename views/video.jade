@@ -1,0 +1,53 @@
+extends layout
+
+block content       
+       
+        video#video
+        img#demo
+        div
+          button#record Record
+          button#play Play
+          button#reset Reset recording
+        
+        
+        
+        script(src="/js/vendor/getusermedia.bundle.js")
+        script(src="/js/vendor/attachmediastream.bundle.js")
+        
+        script(src="/js/vendor/fauxplay.bundle.js")
+        
+        script(src="/js/video-recorder.bundle.js")
+        script.
+          var image = document.getElementById('demo');
+          var video = document.getElementById('video');
+          var record = document.getElementById('record');
+          var play = document.getElementById('play');
+          var reset = document.getElementById('reset');
+          var recorder;
+        
+          getUserMedia(function (err, stream) {
+            if (err) return console.log(err);
+        
+            attachMediaStream(stream, video, {muted: true});
+        
+            recorder = window.recorder = new VideoRecorder(video);
+          });
+        
+          record.addEventListener('click', function () {
+            if (recorder.running) {
+              recorder.stop();
+              this.innerHTML = 'Record';
+            } else {
+              recorder.record();
+              this.innerHTML = 'Pause';
+            }
+          });
+        
+          play.addEventListener('click', function () {
+            fauxplay(recorder.data, image, {loop: true, duration: recorder.runningTime})
+          });
+        
+          reset.addEventListener('click', function () {
+            recorder.stop();
+            recorder.reset();
+          });

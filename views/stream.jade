@@ -2,37 +2,32 @@ extends layout
 
 block content
     
-    script(src="/js/socket.io-stream.js")
-    
-    input#files(type="file")
-    output#list
+    div.custom_file_upload
+     //input.file(type="text")
+     div.file_upload
+      input#file.file_upload(type="file")
+     
 
     script.
+        $(function() {
         
-        
-        var socket = io.connect(null);
-        var stream = ss.createStream();
-                
+        $('#file').change(function(e) {
        
-        
-       
-        
-        function handleFileSelect(evt) {
-        
+           // var io = require('socket.io-client');
+            //var ss = require('socket.io-stream');
             
-            var files = evt.target.files[0]; // FileList object
-
+            var socket = io.connect(null);
+            var stream = ss.createStream();
+            var file=e.target.result
+            var filename = e.target.files[0];
+            //var filename = 'data';
             
-
-            var filename = "hello";
             
-            ss(socket).emit('data', stream);
-            fs.createReadStream(filename).pipe(stream);
+                ss(socket).emit('profile-image', stream, {name: filename.name});
+                ss.createBlobReadStream(filename).pipe(stream);
             
- 
-          }
-
-            document.getElementById('files').addEventListener('change', handleFileSelect, false);
             
+          });
+        });
            
          

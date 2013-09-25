@@ -52,6 +52,8 @@ require('./routes/index')(app);
 require('./routes/game')(app);
 require('./routes/users')(app);
 require('./routes/socket')(app);
+require('./routes/fs')(app);
+require('./routes/video')(app);
 
 
 
